@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+.python-version
+__pycache__/
+*.pyc
+
+# Node (if added later)
+node_modules/
+package-lock.json
+
+# Chrome Extension build artifacts
+*.crx
+*.pem
+*.zip
