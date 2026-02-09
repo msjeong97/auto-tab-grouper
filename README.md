@@ -5,6 +5,9 @@ Chrome Extension (Manifest V3) that automatically groups browser tabs based on u
 ## Features
 
 - **Exact Domain Matching** - Group tabs by hostname (e.g., `github.com`, `mail.google.com`)
+- **Window-specific Numbering** - Same rule across multiple windows gets unique numbered titles (e.g., "AI ①", "AI ②")
+- **Cross-window Tab Move** - Dragging a tab to another window automatically regroups it
+- **Auto Renumbering** - Closing a window renumbers remaining groups sequentially
 - **Custom Group Names & Colors** - 9 Chrome native colors supported
 - **Global Toggle** - Enable/disable auto grouping with one click
 - **Cross-device Sync** - Rules sync across devices via `chrome.storage.sync`

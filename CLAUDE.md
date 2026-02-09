@@ -39,12 +39,19 @@ chrome.storage.sync     → Shared state between background.js and options.js
 
 - **No rule caching in background.js** — reads from `chrome.storage.sync` on every tab event because MV3 service workers can restart at any time, making in-memory caches unreliable.
 - **Exact hostname matching only** — `new URL(tab.url).hostname === rule.host`, no wildcards or regex.
-- **Existing group lookup by title + windowId** — uses `chrome.tabGroups.query()`, stateless across service worker restarts.
+- **Existing group lookup by title pattern + windowId** — uses `chrome.tabGroups.query({})` then filters with `isGroupForRule()`, stateless across service worker restarts.
 - **`changeInfo.status === 'complete'`** — groups tabs after page load completes (not on URL change) to avoid redirect/double-fire issues.
+- **Window-specific numbered titles** — each window's group gets a circled number suffix (e.g., "AI ①", "AI ②") via `buildGroupTitle()` / `parseGroupTitle()`. Duplicate detection renames groups when titles collide across windows.
+- **500ms delay on tab attach** — `chrome.tabs.onAttached` uses `setTimeout(500)` to let Chrome finish internal group management before regrouping.
+- **Saved tab groups are inaccessible** — `chrome.tabGroups.query({})` does not return Chrome's saved (closed) tab groups. There is no API to delete them. Renumbering on window close only targets groups in open windows.
 
 ## Chrome APIs Used
 
 - `chrome.tabs.onUpdated` — detect navigation
-- `chrome.tabs.group` / `chrome.tabGroups.query` / `chrome.tabGroups.update` — manage tab groups
+- `chrome.tabs.onAttached` — regroup tabs moved between windows
+- `chrome.windows.onRemoved` — renumber groups after window close
+- `chrome.tabs.group` / `chrome.tabs.ungroup` — assign/remove tabs from groups
+- `chrome.tabGroups.query` / `chrome.tabGroups.update` — find and rename tab groups
 - `chrome.storage.sync` — persist rules (cross-device sync)
+- `chrome.storage.onChanged` — apply grouping when rules change
 - Colors limited to 9 Chrome natives: blue, red, yellow, green, pink, purple, cyan, orange, grey
