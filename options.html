@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Tab Grouper - Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Auto Tab Grouper</h1>
+      <p class="subtitle">Configure your automatic tab grouping rules</p>
+    </header>
+
+    <section class="section toggle-section">
+      <div class="toggle-row">
+        <div>
+          <h2>Enable Auto Grouping</h2>
+          <p class="description">When enabled, tabs will be automatically grouped based on your rules below.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="globalToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Add New Rule</h2>
+      <form id="ruleForm" class="rule-form">
+        <div class="form-group">
+          <label for="domainInput">Domain (Hostname)</label>
+          <input type="text" id="domainInput" placeholder="e.g., github.com" required>
+        </div>
+        <div class="form-group">
+          <label for="groupNameInput">Group Name</label>
+          <input type="text" id="groupNameInput" placeholder="e.g., Development" required>
+        </div>
+        <div class="form-group">
+          <label for="colorSelect">Color</label>
+          <select id="colorSelect" required>
+            <option value="blue">Blue</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+            <option value="green">Green</option>
+            <option value="pink">Pink</option>
+            <option value="purple">Purple</option>
+            <option value="cyan">Cyan</option>
+            <option value="orange">Orange</option>
+            <option value="grey">Grey</option>
+          </select>
+        </div>
+        <button type="submit" id="submitBtn" class="btn btn-primary">Add Rule</button>
+      </form>
+    </section>
+
+    <section class="section">
+      <h2>Your Rules</h2>
+      <div id="rulesList" class="rules-list"></div>
+      <p id="emptyState" class="empty-state">No rules defined yet. Add your first rule above.</p>
+    </section>
+
+    <div id="statusMessage" class="status-message" aria-live="polite"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
