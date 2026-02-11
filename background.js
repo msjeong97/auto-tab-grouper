@@ -194,7 +194,25 @@ async function applyGrouping(tabId, windowId, rule) {
         color: rule.color
       });
     }
+
+    await moveUngroupedTabsToEnd(windowId);
   } catch (error) {
     console.error('[Auto Tab Grouper] Grouping failed:', error);
   }
+}
+
+// Move ungrouped tabs to the right side of the tab bar,
+// keeping grouped tabs on the left
+async function moveUngroupedTabsToEnd(windowId) {
+  const tabs = await chrome.tabs.query({ windowId });
+  const ungroupedTabs = tabs
+    .filter(t => !t.pinned && t.groupId === -1)
+    .sort((a, b) => a.index - b.index);
+
+  if (ungroupedTabs.length === 0) return;
+
+  await chrome.tabs.move(
+    ungroupedTabs.map(t => t.id),
+    { index: -1 }
+  );
 }
