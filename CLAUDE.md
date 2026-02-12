@@ -44,6 +44,9 @@ chrome.storage.sync     → Shared state between background.js and options.js
 - **Window-specific numbered titles** — each window's group gets a circled number suffix (e.g., "AI ①", "AI ②") via `buildGroupTitle()` / `parseGroupTitle()`. Duplicate detection renames groups when titles collide across windows.
 - **500ms delay on tab attach** — `chrome.tabs.onAttached` uses `setTimeout(500)` to let Chrome finish internal group management before regrouping.
 - **Saved tab groups are inaccessible** — `chrome.tabGroups.query({})` does not return Chrome's saved (closed) tab groups. There is no API to delete them. Renumbering on window close only targets groups in open windows.
+- **Tab sorting: grouped left, ungrouped right** — after every grouping, `moveUngroupedTabsToEnd()` moves non-pinned ungrouped tabs to the right side of the tab bar.
+- **Auto-ungrouping** — when a tab navigates away from a matched domain, `tryUngrouping()` removes it from the group only if the group was created by one of our rules (checked via title pattern). Tabs in user-created groups are left alone.
+- **Options page accepts full URLs** — `options.js` auto-extracts hostname from pasted URLs (e.g., `https://github.com/foo` → `github.com`), with duplicate hostname validation.
 
 ## Chrome APIs Used
 
