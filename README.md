@@ -8,10 +8,12 @@ Chrome Extension (Manifest V3) that automatically groups browser tabs based on u
 - **Window-specific Numbering** - Same rule across multiple windows gets unique numbered titles (e.g., "AI ①", "AI ②")
 - **Cross-window Tab Move** - Dragging a tab to another window automatically regroups it
 - **Auto Renumbering** - Closing a window renumbers remaining groups sequentially
+- **Tab Sorting** - Grouped tabs stay on the left, ungrouped tabs move to the right
+- **Auto Ungrouping** - Navigating away from a matched domain removes the tab from its group
 - **Custom Group Names & Colors** - 9 Chrome native colors supported
 - **Global Toggle** - Enable/disable auto grouping with one click
 - **Cross-device Sync** - Rules sync across devices via `chrome.storage.sync`
-- **Options Page** - Full CRUD for managing grouping rules
+- **Options Page** - Full CRUD for managing grouping rules (accepts full URLs, auto-extracts hostname)
 
 ## Installation
 
