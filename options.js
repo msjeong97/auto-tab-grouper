@@ -129,13 +129,37 @@ function renderRules(rules) {
 
   emptyState.style.display = 'none';
 
-  rules.forEach(rule => {
+  const sorted = [...rules].sort((a, b) => {
+    const nameCompare = a.groupName.localeCompare(b.groupName);
+    if (nameCompare !== 0) return nameCompare;
+    return a.color.localeCompare(b.color);
+  });
+
+  let lastKey = null;
+
+  sorted.forEach(rule => {
+    const key = `${rule.groupName}::${rule.color}`;
+
+    if (key !== lastKey) {
+      const header = document.createElement('div');
+      header.className = 'rule-group-header';
+
+      const colorDot = document.createElement('span');
+      colorDot.className = 'color-dot';
+      colorDot.style.backgroundColor = COLOR_MAP[rule.color] || COLOR_MAP.grey;
+
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = rule.groupName;
+
+      header.appendChild(colorDot);
+      header.appendChild(nameSpan);
+      rulesList.appendChild(header);
+
+      lastKey = key;
+    }
+
     const ruleEl = document.createElement('div');
     ruleEl.className = 'rule-item';
-
-    const colorDot = document.createElement('span');
-    colorDot.className = 'color-dot';
-    colorDot.style.backgroundColor = COLOR_MAP[rule.color] || COLOR_MAP.grey;
 
     const info = document.createElement('div');
     info.className = 'rule-info';
@@ -144,12 +168,7 @@ function renderRules(rules) {
     hostSpan.className = 'rule-host';
     hostSpan.textContent = rule.host;
 
-    const groupSpan = document.createElement('span');
-    groupSpan.className = 'rule-group';
-    groupSpan.textContent = rule.groupName;
-
     info.appendChild(hostSpan);
-    info.appendChild(groupSpan);
 
     const actions = document.createElement('div');
     actions.className = 'rule-actions';
@@ -167,7 +186,6 @@ function renderRules(rules) {
     actions.appendChild(editBtn);
     actions.appendChild(deleteBtn);
 
-    ruleEl.appendChild(colorDot);
     ruleEl.appendChild(info);
     ruleEl.appendChild(actions);
 
