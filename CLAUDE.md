@@ -47,6 +47,9 @@ chrome.storage.sync     → Shared state between background.js and options.js
 - **Tab sorting: grouped left, ungrouped right** — after every grouping, `moveUngroupedTabsToEnd()` moves non-pinned ungrouped tabs to the right side of the tab bar.
 - **Auto-ungrouping** — when a tab navigates away from a matched domain, `tryUngrouping()` removes it from the group only if the group was created by one of our rules (checked via title pattern). Tabs in user-created groups are left alone.
 - **Options page accepts full URLs** — `options.js` auto-extracts hostname from pasted URLs (e.g., `https://github.com/foo` → `github.com`), with duplicate hostname validation.
+- **Options page groups rules by `groupName::color`** — `renderRules()` sorts alphabetically by groupName then color, inserting a section header per unique `groupName + color` combination (not just groupName).
+- **10-window maximum per group name** — `buildGroupTitle` falls back to `(n)` for n > 10, but `parseGroupTitle` only recognizes ①–⑩, so groups beyond 10 are not recognized as extension-managed.
+- **No browser action popup** — the extension exposes no popup; configuration is only accessible via the options page (`chrome://extensions` → Details → Extension options).
 
 ## Chrome APIs Used
 
